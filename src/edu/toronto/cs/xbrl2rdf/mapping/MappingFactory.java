@@ -70,7 +70,7 @@ public class MappingFactory {
         discoverer.addStep(new BasicEntitiesDiscovery(
                 new XmlParser(), 
                 new UriBuilder(config.getDefaultEntityResourceTypeUri(), 
-                    config.getDefaultEntityResourceTypePrefix())));
+                    config.getDefaultEntityResourceTypePrefix()), true));
         discoverer.addStep(new XbrlRelationDiscovery());
         
         return discoverer;
