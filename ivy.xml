@@ -6,6 +6,7 @@
     <dependency org="org.apache.jena" name="jena-iri" rev="1.0.1"/>
     <dependency org="org.apache.jena" name="jena-sdb" rev="1.4.1"/>
     <dependency org="org.apache.jena" name="jena-tdb" rev="1.0.1"/>
+    <dependency org="log4j" name="log4j" rev="1.2.16"/>
     <dependency org="commons-configuration" name="commons-configuration" rev="1.10"/>
   </dependencies>
 </ivy-module>

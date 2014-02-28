@@ -23,10 +23,10 @@ public class RunConfig {
             Logger.getLogger(RunConfig.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        mappingSerializedDirectoryPath = config.getString("mapping.savedtodirectory");
-        entityResourceUriBase = config.getString("rdf.resource.uribase");
-        defaultEntityResourceTypeUri = config.getString("rdf.resource.type.default.uri");
-        defaultEntityResourceTypePrefix = config.getString("rdf.resource.type.default.prefix");
+        mappingSerializedDirectoryPath = config.getString("mapping.directory");
+        entityResourceUriBase = config.getString("rdf.uribase");
+        defaultEntityResourceTypeUri = config.getString("rdf.type.default.uri");
+        defaultEntityResourceTypePrefix = config.getString("rdf.type.default.prefix");
         tdbDirectoryPath = config.getString("rdf.tdb.directory");
     }
 
