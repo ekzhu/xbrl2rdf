@@ -1,0 +1,8 @@
+prefix us-gaap: <http://fasb.org/us-gaap/2012-01-31#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+select * 
+where {
+?x rdf:type us-gaap:IncomeTaxesPaidNet.
+?x ?y ?z.
+} limit 100

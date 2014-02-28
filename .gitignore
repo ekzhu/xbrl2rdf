@@ -1,4 +1,10 @@
 *.class
+nbproject
+manifest.mf
+nbbuild.xml
+nbdist
+build
+lib
 
 # Package Files #
 *.jar
