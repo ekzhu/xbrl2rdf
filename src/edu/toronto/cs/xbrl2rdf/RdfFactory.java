@@ -26,8 +26,11 @@ public class RdfFactory {
     /**
      * Generate RDFs from the XBRL document
      * @param xbrlDocument
+     * @param tdbDirectory
      */
-    public void createRdfs(Document xbrlDocument) {
+    public void createRdfs(Document xbrlDocument, String tdbDirectory) {
+        
+        config.setTdbDirectory(tdbDirectory);
         
         // Create a entity mapping from the XBRL document
         Mapping mapping = mappingFactory.createInstance(xbrlDocument);

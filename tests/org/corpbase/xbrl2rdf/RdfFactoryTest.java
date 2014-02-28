@@ -4,11 +4,7 @@ import edu.toronto.cs.xbrl2rdf.RdfFactory;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.ReadWrite;
 import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ResIterator;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.tdb.TDBFactory;
-import com.hp.hpl.jena.vocabulary.RDF;
 import edu.toronto.cs.xcurator.xml.XmlParser;
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +26,7 @@ public class RdfFactoryTest {
 
     private String testTdbDir;
     private XmlParser parser;
+    private String domain = "http://corpbase.org/";
 
     @Rule
     public TemporaryFolder testTdbFolder = new TemporaryFolder();
@@ -47,29 +44,29 @@ public class RdfFactoryTest {
         Document dataDoc = parser.parse(RdfFactoryTest.class.getResourceAsStream(
                 "/data/fb-20121231.xml"), -1);
 
-        RdfFactory factory = new RdfFactory(new RunConfig() {
-            @Override
-            public String getTdbDirectory() {
-                return testTdbDir;
-            }
-        });
-//        RdfFactory factory = new RdfFactory(new RunConfig(), new JenaConfig());
-        factory.createRdfs(dataDoc);
+//        RdfFactory factory = new RdfFactory(new RunConfig() {
+//            @Override
+//            public String getTdbDirectory() {
+//                return testTdbDir;
+//            }
+//        });
+        RdfFactory factory = new RdfFactory(new RunConfig(domain));
+        factory.createRdfs(dataDoc, testTdbDir);
 
         Dataset dataset = TDBFactory.createDataset(testTdbDir);
         dataset.begin(ReadWrite.READ);
         Model model = dataset.getDefaultModel();
         Assert.assertFalse("No RDF was generated. TDB directory: " + testTdbDir, model.isEmpty());
 
-        ResIterator iter = model.listResourcesWithProperty(RDF.type);
-        while (iter.hasNext()) {
-            Resource resource = iter.nextResource();
-            System.out.println(resource.getLocalName());
-            StmtIterator iterStm = resource.listProperties();
-            while (iterStm.hasNext()) {
-                System.out.println(iterStm.nextStatement().toString());
-            }
-        }
+//        ResIterator iter = model.listResourcesWithProperty(RDF.type);
+//        while (iter.hasNext()) {
+//            Resource resource = iter.nextResource();
+//            System.out.println(resource.getLocalName());
+//            StmtIterator iterStm = resource.listProperties();
+//            while (iterStm.hasNext()) {
+//                System.out.println(iterStm.nextStatement().toString());
+//            }
+//        }
         dataset.end();
     }
 }

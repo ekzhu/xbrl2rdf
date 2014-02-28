@@ -31,10 +31,11 @@ public class MappingFactoryTest {
     private RunConfig config;
     private XmlParser parser;
     private XPathFinder xpath;
+    private String domain = "http://corpbase.org/";
     
     @Before
     public void setup() {
-        config = new RunConfig();
+        config = new RunConfig(domain);
         parser = new XmlParser();
         xpath = new XPathFinder();
     }

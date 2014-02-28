@@ -46,12 +46,11 @@ public class MappingFactory {
         Mapping mapping = buildXmlBasedMapping();
         MappingDiscoverer discoverer = buildBasicDiscoverer(xbrlDocuments, mapping);
         
-        String saveFilePath = config.getMappingSerializedFilePath(fileName);
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         discoverer.addStep(new SerializeMapping(new XmlDocumentBuilder(), 
-                new FileOutputStream(saveFilePath), 
+                new FileOutputStream(fileName), 
                 transformer));
         
         discoverer.discoverMapping();
@@ -62,15 +61,15 @@ public class MappingFactory {
             Mapping mapping) {
         MappingDiscoverer discoverer = new MappingDiscoverer(mapping);
         
-        String resourceUriPattern = config.getEntityResourceUriBase() + "${UUID}";
+        String resourceUriPattern = config.getResourceUriBase() + "${UUID}";
         for (Document document : xbrlDocuments) {
             discoverer.addDataDocument(new DataDocument(document, resourceUriPattern));
         }
         
         discoverer.addStep(new BasicEntitiesDiscovery(
                 new XmlParser(), 
-                new UriBuilder(config.getDefaultEntityResourceTypeUri(), 
-                    config.getDefaultEntityResourceTypePrefix()), true));
+                new UriBuilder(config.getDefaultTypeResourceUri(), 
+                    config.getDefaultTypeResourcePrefix()), true));
         discoverer.addStep(new XbrlRelationDiscovery());
         
         return discoverer;
