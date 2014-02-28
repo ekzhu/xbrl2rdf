@@ -13,11 +13,9 @@ public class RunConfig {
     // From setting file
     final String resourceUriBase;
     final String typeResourceUriBase;
-    final String defaultTypeResourceUri;
-    final String defaultTypeResourcePrefix;
+    final String typeResourcePrefix;
     final String propertyResourceUriBase;
-    final String defaultPropertyResourceUri;
-    final String defaultPropertyResourcePrefix;
+    final String propertyResourcePrefix;
 
     // From run time setting
     String domain;
@@ -42,22 +40,16 @@ public class RunConfig {
         typeResourceUriBase = this.domain + (typeUriBase.endsWith("/")
                 ? typeUriBase : typeUriBase + "/");
         
-        defaultTypeResourceUri = this.domain + config.getString("rdf.type.default.uri",
-                "/resource/class/default");
-        
-        defaultTypeResourcePrefix = config.getString("rdf.type.default.prefix",
-                "default-type");
+        typeResourcePrefix = config.getString("rdf.type.prefix",
+                "class");
 
         String propertyUriBase = config.getString("rdf.property.uribase",
                 "/resource/property/");
         propertyResourceUriBase = this.domain + (propertyUriBase.endsWith("/")
                 ? propertyUriBase : propertyUriBase + "/");
         
-        defaultPropertyResourceUri = this.domain + config.getString("rdf.property.default.uri",
-                "/resource/property/default");
-        
-        defaultPropertyResourcePrefix = config.getString("rdf.property.default.prefix",
-                "default-property");
+        propertyResourcePrefix = config.getString("rdf.property.prefix",
+                "property");
     }
 
     public String getResourceUriBase() {
@@ -72,12 +64,12 @@ public class RunConfig {
         return propertyResourceUriBase;
     }
 
-    public String getDefaultTypeResourceUri() {
-        return domain + defaultTypeResourceUri;
+    public String getTypeResourcePrefix() {
+        return typeResourcePrefix;
     }
-
-    public String getDefaultTypeResourcePrefix() {
-        return defaultTypeResourcePrefix;
+    
+    public String getPropertyResourcePrefix() {
+        return propertyResourcePrefix;
     }
 
     public String getTdbDirectory() {

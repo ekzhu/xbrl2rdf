@@ -1,7 +1,8 @@
 
 package edu.toronto.cs.xbrl2rdf.mapping;
 
-import edu.toronto.cs.xcurator.discoverer.DataDocument;
+import edu.toronto.cs.xbrl2rdf.config.RunConfig;
+import edu.toronto.cs.xcurator.common.DataDocument;
 import edu.toronto.cs.xcurator.discoverer.MappingDiscoveryStep;
 import edu.toronto.cs.xcurator.mapping.Attribute;
 import edu.toronto.cs.xcurator.mapping.Entity;
@@ -16,14 +17,20 @@ import java.util.List;
  * @author ekzhu
  */
 public class XbrlRelationDiscovery implements MappingDiscoveryStep {
+    
+    private RunConfig config;
+    
+    public XbrlRelationDiscovery(RunConfig config) {
+        this.config = config;
+    }
 
     @Override
     public void process(List<DataDocument> dataDocuments, Mapping mapping) {
         /**
          * Converting attributes in XBRL to relations
          */
-        Entity contextEntity = mapping.getEntity("http://www.xbrl.org/2003/instance#context");
-        Entity unitEntity = mapping.getEntity("http://www.xbrl.org/2003/instance#unit");
+        Entity contextEntity = mapping.getEntity(config.getTypeResourceUriBase()+ "context");
+        Entity unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "unit");
         
         Iterator<Entity> iterator = mapping.getEntityIterator();
         while (iterator.hasNext()) {

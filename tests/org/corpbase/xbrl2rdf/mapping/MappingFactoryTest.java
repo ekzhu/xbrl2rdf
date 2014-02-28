@@ -5,8 +5,8 @@ import edu.toronto.cs.xbrl2rdf.mapping.MappingFactory;
 import edu.toronto.cs.xcurator.mapping.Entity;
 import edu.toronto.cs.xcurator.mapping.Mapping;
 import edu.toronto.cs.xcurator.mapping.Relation;
-import edu.toronto.cs.xcurator.xml.XPathFinder;
-import edu.toronto.cs.xcurator.xml.XmlParser;
+import edu.toronto.cs.xcurator.common.XPathFinder;
+import edu.toronto.cs.xcurator.common.XmlParser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +54,10 @@ public class MappingFactoryTest {
         Mapping mapping = factory.createInstance(docList, "fb-20121231-mapping.xml");
         
         // Verify
-        Entity e = mapping.getEntity("http://fasb.org/us-gaap/2012-01-31#NonoperatingIncomeExpense");
-        Assert.assertTrue(e.hasRelation("http://fasb.org/us-gaap/2012-01-31#NonoperatingIncomeExpense.unit"));
-        Assert.assertTrue(e.hasRelation("http://fasb.org/us-gaap/2012-01-31#NonoperatingIncomeExpense.context"));
-        Relation r = e.getRelation("http://fasb.org/us-gaap/2012-01-31#NonoperatingIncomeExpense.context");
+        Entity e = mapping.getEntity("http://corpbase.org/resource/type/us-gaap/NonoperatingIncomeExpense");
+        Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/unit"));
+        Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/context"));
+        Relation r = e.getRelation("http://corpbase.org/resource/property/context");
         
         NodeList nl = xpath.getNodesByPath(e.getPath(), dataDoc, e.getNamespaceContext());
         Assert.assertTrue(nl.getLength() > 0);
