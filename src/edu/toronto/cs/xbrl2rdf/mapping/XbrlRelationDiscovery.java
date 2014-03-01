@@ -9,6 +9,7 @@ import edu.toronto.cs.xcurator.mapping.Entity;
 import edu.toronto.cs.xcurator.mapping.Mapping;
 import edu.toronto.cs.xcurator.mapping.Reference;
 import edu.toronto.cs.xcurator.mapping.Relation;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,10 +28,21 @@ public class XbrlRelationDiscovery implements MappingDiscoveryStep {
     @Override
     public void process(List<DataDocument> dataDocuments, Mapping mapping) {
         /**
+         * Find entities, needs to be improved for multiple document case when
+         * both type names exist.
+         */
+        Entity contextEntity = mapping.getEntity(config.getTypeResourceUriBase()+ "context");
+        if (contextEntity == null) {
+            contextEntity = mapping.getEntity(config.getTypeResourceUriBase() + "xbrli-context");
+        }
+        Entity unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "unit");
+        if (unitEntity == null) {
+            unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "xbrli-unit");
+        }
+        
+        /**
          * Converting attributes in XBRL to relations
          */
-        Entity contextEntity = mapping.getEntity(config.getTypeResourceUriBase()+ "xbrli-context");
-        Entity unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "xbrli-unit");
         
         Iterator<Entity> iterator = mapping.getEntityIterator();
         while (iterator.hasNext()) {
@@ -43,7 +55,7 @@ public class XbrlRelationDiscovery implements MappingDiscoveryStep {
                         attribute.getPath().equals("@contextRef")) {
                     // Create a relation to the context entity
                     String path = contextEntity.getPath();
-                    Relation contextRel = new Relation(entity.getTypeUri() + ".context", 
+                    Relation contextRel = new Relation(config.getPropertyResourceUriBase()+ "context", 
                             path, contextEntity.getTypeUri());
                     // Add reference to enable search based on id
                     Reference reference = new Reference("@contextRef", "@id");
@@ -55,7 +67,7 @@ public class XbrlRelationDiscovery implements MappingDiscoveryStep {
                         attribute.getPath().equals("@unitRef")) {
                     // Create a relation to the unit entity
                     String path = unitEntity.getPath();
-                    Relation unitRel = new Relation(entity.getTypeUri() + ".unit", 
+                    Relation unitRel = new Relation(config.getPropertyResourceUriBase() + "unit", 
                             path, unitEntity.getTypeUri());
                     // Add reference to enable search based on id
                     Reference reference = new Reference("@unitRef", "@id");

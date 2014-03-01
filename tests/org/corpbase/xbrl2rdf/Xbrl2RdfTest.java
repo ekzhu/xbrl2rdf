@@ -27,9 +27,23 @@ public class Xbrl2RdfTest {
     }
     
     @Test
-    public void testMain() {
-        String[] args = new String[] {"-d", "resources/data/fb-20121231.xml",
+    public void testMain_multiple_documents() {
+        String[] args = new String[] {"-d", "resources/data/msft-20130630.xml",
             "resources/data/fb-20131231.xml",
+        "-t", testTdbDir, "-m", "mapping.xml", "-h", domain};
+        Xbrl2Rdf.main(args);
+    }
+    
+    @Test
+    public void testMain_fb() {
+        String[] args = new String[] {"-d", "resources/data/fb-20131231.xml",
+        "-t", testTdbDir, "-m", "mapping.xml", "-h", domain};
+        Xbrl2Rdf.main(args);
+    }
+    
+    @Test
+    public void testMain_msft() {
+        String[] args = new String[] {"-d", "resources/data/msft-20130630.xml",
         "-t", testTdbDir, "-m", "mapping.xml", "-h", domain};
         Xbrl2Rdf.main(args);
     }

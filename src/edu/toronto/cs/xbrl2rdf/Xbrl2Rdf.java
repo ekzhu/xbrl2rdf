@@ -85,7 +85,7 @@ public class Xbrl2Rdf {
                 rdfFactory.createRdfs(documents, tdbDirectory);
             }
         } catch (Exception ex) {
-            System.err.println("Unexpected exception:" + ex.getMessage());
+            System.err.println("Unexpected exception: " + ex.getMessage());
             System.exit(1);
         }
     }

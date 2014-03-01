@@ -26,7 +26,7 @@ public class RdfFactoryTest {
 
     private String testTdbDir;
     private XmlParser parser;
-    private String domain = "http://corpbase.org/";
+    private final String domain = "http://corpbase.org/";
 
     @Rule
     public TemporaryFolder testTdbFolder = new TemporaryFolder();
@@ -39,17 +39,11 @@ public class RdfFactoryTest {
     }
 
     @Test
-    public void test_rdfcreation() throws SAXException, IOException, ParserConfigurationException {
+    public void test_rdfcreation_fb() throws SAXException, IOException, ParserConfigurationException {
 
         Document dataDoc = parser.parse(RdfFactoryTest.class.getResourceAsStream(
                 "/data/fb-20121231.xml"), -1);
 
-//        RdfFactory factory = new RdfFactory(new RunConfig() {
-//            @Override
-//            public String getTdbDirectory() {
-//                return testTdbDir;
-//            }
-//        });
         RdfFactory factory = new RdfFactory(new RunConfig(domain));
         factory.createRdfs(dataDoc, testTdbDir);
 
@@ -58,15 +52,24 @@ public class RdfFactoryTest {
         Model model = dataset.getDefaultModel();
         Assert.assertFalse("No RDF was generated. TDB directory: " + testTdbDir, model.isEmpty());
 
-//        ResIterator iter = model.listResourcesWithProperty(RDF.type);
-//        while (iter.hasNext()) {
-//            Resource resource = iter.nextResource();
-//            System.out.println(resource.getLocalName());
-//            StmtIterator iterStm = resource.listProperties();
-//            while (iterStm.hasNext()) {
-//                System.out.println(iterStm.nextStatement().toString());
-//            }
-//        }
+        dataset.end();
+    }
+    
+    @Test
+    // Failing, due to xCurator bug
+    public void test_rdfcreation_msft() throws SAXException, IOException, ParserConfigurationException {
+
+        Document dataDoc = parser.parse(RdfFactoryTest.class.getResourceAsStream(
+                "/data/msft-20130630.xml"), -1);
+
+        RdfFactory factory = new RdfFactory(new RunConfig(domain));
+        factory.createRdfs(dataDoc, testTdbDir);
+
+        Dataset dataset = TDBFactory.createDataset(testTdbDir);
+        dataset.begin(ReadWrite.READ);
+        Model model = dataset.getDefaultModel();
+        Assert.assertFalse("No RDF was generated. TDB directory: " + testTdbDir, model.isEmpty());
+
         dataset.end();
     }
 }
