@@ -8,6 +8,10 @@ import edu.toronto.cs.xcurator.common.XPathFinder;
 import edu.toronto.cs.xbrl2rdf.config.RunConfig;
 import edu.toronto.cs.xbrl2rdf.mapping.MappingFactory;
 import edu.toronto.cs.xcurator.common.DataDocument;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.transform.TransformerConfigurationException;
 import org.w3c.dom.Document;
 
 public class RdfFactory {
@@ -15,31 +19,73 @@ public class RdfFactory {
     private final MappingFactory mappingFactory;
     private final RunConfig config;
     private final XPathFinder xpath;
-    private final ElementIdGenerator idGenerator;
+    private final ElementIdGenerator uriGenerator;
     
     public RdfFactory(RunConfig config) {
         this.config = config;
         mappingFactory = new MappingFactory(this.config);
         xpath = new XPathFinder();
-        idGenerator = new ElementIdGenerator(this.config.getResourceUriBase());
+        uriGenerator = new ElementIdGenerator(this.config.getResourceUriBase());
     }
     
     /**
-     * Generate RDFs from the XBRL document
+     * Generate RDFs from multiple XBRL documents, do not serialize the mapping
+     * @param xbrlDocuments
+     * @param tdbDirectory 
+     */
+    public void createRdfs(List<Document> xbrlDocuments, String tdbDirectory) {
+       Mapping mapping = mappingFactory.createInstance(xbrlDocuments);
+        generateRdfs(xbrlDocuments, tdbDirectory, mapping);
+    }
+    
+    /**
+     * Generate RDFs from multiple XBRL documents, and the mapping will be
+     * serialized to the given file.
+     * @param xbrlDocuments
+     * @param tdbDirectory 
+     * @param mappingFile 
+     * @throws java.io.FileNotFoundException 
+     * @throws javax.xml.transform.TransformerConfigurationException 
+     */
+    public void createRdfs(List<Document> xbrlDocuments, String tdbDirectory, String mappingFile)
+            throws FileNotFoundException, TransformerConfigurationException {
+       Mapping mapping = mappingFactory.createInstance(xbrlDocuments, mappingFile);
+        generateRdfs(xbrlDocuments, tdbDirectory, mapping);
+    }
+    
+    /**
+     * Generate RDFs from the XBRL document, do not serialize mapping
      * @param xbrlDocument
-     * @param tdbDirectory
+     * @param tdbDirectory 
      */
     public void createRdfs(Document xbrlDocument, String tdbDirectory) {
-        
-        config.setTdbDirectory(tdbDirectory);
-        
-        // Create a entity mapping from the XBRL document
-        Mapping mapping = mappingFactory.createInstance(xbrlDocument);
-        
-        RdfGenerator rdfGenerator = new RdfGenerator(new DataDocument(xbrlDocument), mapping);
-        RdfGeneration rdfGenerationStep = new RdfGeneration(config.getTdbDirectory()
-                , xpath, idGenerator);
-        rdfGenerator.addStep(rdfGenerationStep);
+        List<Document> documents = new ArrayList<>();
+        documents.add(xbrlDocument);
+        createRdfs(documents, tdbDirectory);
+    }
+    
+    /**
+     * Generate RDFs from the XBRL document, and the mapping will be serialized
+     * to the mapping file.
+     * @param xbrlDocument
+     * @param tdbDirectory
+     * @param mappingFile
+     * @throws javax.xml.transform.TransformerConfigurationException
+     * @throws java.io.FileNotFoundException
+     */
+    public void createRdfs(Document xbrlDocument, String tdbDirectory, String mappingFile) 
+            throws TransformerConfigurationException, FileNotFoundException {
+        List<Document> documents = new ArrayList<>();
+        documents.add(xbrlDocument);
+        createRdfs(documents, tdbDirectory, mappingFile);
+    }
+    
+    private void generateRdfs(List<Document> xbrlDocuments, String tdbDirectory, Mapping mapping) {
+        RdfGenerator rdfGenerator = new RdfGenerator(mapping);
+        for (Document document : xbrlDocuments) {
+            rdfGenerator.addDataDocument(new DataDocument(document));
+        }
+        rdfGenerator.addStep(new RdfGeneration(tdbDirectory, xpath, uriGenerator));
         rdfGenerator.generateRdfs();
     }
 }

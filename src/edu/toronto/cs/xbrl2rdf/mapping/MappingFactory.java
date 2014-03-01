@@ -28,12 +28,40 @@ public class MappingFactory {
         this.config = config;
     }
 
+    /**
+     * Create a mapping instance by discovering entities in the XBRL document,
+     * do not serialize the mapping.
+     * @param xbrlDocument
+     * @return 
+     */
     public Mapping createInstance(Document xbrlDocument) {
         List<Document> docList = new ArrayList<>();
         docList.add(xbrlDocument);
         return createInstance(docList);
     }
+    
+    /**
+     * Create a mapping instance by discovering entities in the XBRL document,
+     * and the mapping will be serialized to the mapping file
+     * @param xbrlDocument
+     * @param mappingFile
+     * @return
+     * @throws TransformerConfigurationException
+     * @throws FileNotFoundException 
+     */
+    public Mapping createInstance(Document xbrlDocument, String mappingFile)
+            throws TransformerConfigurationException, FileNotFoundException {
+        List<Document> docList = new ArrayList<>();
+        docList.add(xbrlDocument);
+        return createInstance(docList, mappingFile);
+    }
 
+    /**
+     * Create a mapping instance by discovering entities in the multiple
+     * XBRL documents, do not serialize the mapping.
+     * @param xbrlDocuments
+     * @return 
+     */
     public Mapping createInstance(List<Document> xbrlDocuments) {
         Mapping mapping = buildXmlBasedMapping();
         MappingDiscoverer discoverer = buildBasicDiscoverer(xbrlDocuments, mapping);
@@ -41,6 +69,15 @@ public class MappingFactory {
         return mapping;
     }
 
+    /**
+     * Create a mapping instance by discovering entities in the multiple 
+     * XBRL documents, and the mapping will be serialized to the mapping file.
+     * @param xbrlDocuments
+     * @param fileName
+     * @return
+     * @throws TransformerConfigurationException
+     * @throws FileNotFoundException 
+     */
     public Mapping createInstance(List<Document> xbrlDocuments, String fileName)
             throws TransformerConfigurationException, FileNotFoundException {
         Mapping mapping = buildXmlBasedMapping();
