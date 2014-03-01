@@ -54,7 +54,7 @@ public class MappingFactoryTest {
         Mapping mapping = factory.createInstance(docList, "fb-20121231-mapping.xml");
         
         // Verify
-        Entity e = mapping.getEntity("http://corpbase.org/resource/type/us-gaap/NonoperatingIncomeExpense");
+        Entity e = mapping.getEntity("http://corpbase.org/resource/class/us-gaap-NonoperatingIncomeExpense");
         Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/unit"));
         Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/context"));
         Relation r = e.getRelation("http://corpbase.org/resource/property/context");

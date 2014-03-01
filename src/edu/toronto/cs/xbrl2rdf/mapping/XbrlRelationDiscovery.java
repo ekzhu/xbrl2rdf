@@ -29,8 +29,8 @@ public class XbrlRelationDiscovery implements MappingDiscoveryStep {
         /**
          * Converting attributes in XBRL to relations
          */
-        Entity contextEntity = mapping.getEntity(config.getTypeResourceUriBase()+ "context");
-        Entity unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "unit");
+        Entity contextEntity = mapping.getEntity(config.getTypeResourceUriBase()+ "xbrli-context");
+        Entity unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "xbrli-unit");
         
         Iterator<Entity> iterator = mapping.getEntityIterator();
         while (iterator.hasNext()) {
