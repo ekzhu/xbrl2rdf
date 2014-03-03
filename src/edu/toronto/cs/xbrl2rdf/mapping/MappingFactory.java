@@ -105,10 +105,7 @@ public class MappingFactory {
 
         discoverer.addStep(new BasicEntitiesDiscovery(
                 new XmlParser(),
-                new UriBuilder(config.getTypeResourceUriBase(),
-                        config.getPropertyResourceUriBase(),
-                        config.getTypeResourcePrefix(),
-                        config.getPropertyResourcePrefix()), true));
+                new UriBuilder(config), true));
         discoverer.addStep(new XbrlRelationDiscovery(config));
 
         return discoverer;

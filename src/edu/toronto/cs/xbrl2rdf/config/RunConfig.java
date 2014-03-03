@@ -1,12 +1,13 @@
 package edu.toronto.cs.xbrl2rdf.config;
 
+import edu.toronto.cs.xcurator.rdf.RdfConfig;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
-public class RunConfig {
+public class RunConfig implements RdfConfig {
 
     private Configuration config;
 
@@ -52,32 +53,29 @@ public class RunConfig {
                 "property");
     }
 
+    @Override
     public String getResourceUriBase() {
         return resourceUriBase;
     }
     
+    @Override
     public String getTypeResourceUriBase() {
         return typeResourceUriBase;
     }
     
+    @Override
     public String getPropertyResourceUriBase() {
         return propertyResourceUriBase;
     }
 
+    @Override
     public String getTypeResourcePrefix() {
         return typeResourcePrefix;
     }
     
+    @Override
     public String getPropertyResourcePrefix() {
         return propertyResourcePrefix;
-    }
-
-    public String getTdbDirectory() {
-        return tdbDirectory;
-    }
-
-    public void setTdbDirectory(String tdbDirectory) {
-        this.tdbDirectory = tdbDirectory;
     }
 
 }

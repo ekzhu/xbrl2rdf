@@ -3,8 +3,6 @@ package edu.toronto.cs.xbrl2rdf;
 import edu.toronto.cs.xcurator.mapping.Mapping;
 import edu.toronto.cs.xcurator.rdf.RdfGeneration;
 import edu.toronto.cs.xcurator.rdf.RdfGenerator;
-import edu.toronto.cs.xcurator.common.ElementIdGenerator;
-import edu.toronto.cs.xcurator.common.XPathFinder;
 import edu.toronto.cs.xbrl2rdf.config.RunConfig;
 import edu.toronto.cs.xbrl2rdf.mapping.MappingFactory;
 import edu.toronto.cs.xcurator.common.DataDocument;
@@ -18,14 +16,10 @@ public class RdfFactory {
     
     private final MappingFactory mappingFactory;
     private final RunConfig config;
-    private final XPathFinder xpath;
-    private final ElementIdGenerator uriGenerator;
     
     public RdfFactory(RunConfig config) {
         this.config = config;
         mappingFactory = new MappingFactory(this.config);
-        xpath = new XPathFinder();
-        uriGenerator = new ElementIdGenerator(this.config.getResourceUriBase());
     }
     
     /**
@@ -85,7 +79,7 @@ public class RdfFactory {
         for (Document document : xbrlDocuments) {
             rdfGenerator.addDataDocument(new DataDocument(document));
         }
-        rdfGenerator.addStep(new RdfGeneration(tdbDirectory, xpath, uriGenerator));
+        rdfGenerator.addStep(new RdfGeneration(tdbDirectory, config));
         rdfGenerator.generateRdfs();
     }
 }
