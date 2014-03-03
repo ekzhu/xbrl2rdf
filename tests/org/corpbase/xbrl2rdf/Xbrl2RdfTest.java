@@ -47,4 +47,11 @@ public class Xbrl2RdfTest {
         "-t", testTdbDir, "-m", "mapping.xml", "-h", domain};
         Xbrl2Rdf.main(args);
     }
+    
+    @Test
+    public void testMain_fb_remote() {
+        String[] args = new String[] {"-d", "http://www.sec.gov/Archives/edgar/data/1326801/000132680114000007/fb-20131231.xml",
+        "-t", testTdbDir, "-m", "mapping.xml", "-h", domain};
+        Xbrl2Rdf.main(args);
+    }
 }

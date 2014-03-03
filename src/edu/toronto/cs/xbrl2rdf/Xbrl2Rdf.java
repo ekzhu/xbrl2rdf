@@ -28,6 +28,7 @@ public class Xbrl2Rdf {
     private static String tdbDirectory;
     private static String domain;
     private static String[] fileLocations;
+    private static List<InputStream> inputStreams;
     private static DocumentBuilder builder;
 
     public static void main(String[] args) {
@@ -35,17 +36,6 @@ public class Xbrl2Rdf {
         CommandLineParser parser = new BasicParser();
         try {
             CommandLine line = parser.parse(options, args);
-            if (line.hasOption('d')) {
-                fileLocations = line.getOptionValues('d');
-                for (String inputfile : fileLocations) {
-                    File f = new File(inputfile);
-                    if (!f.exists() || !f.isFile()) {
-                        throw new Exception("Cannot open file: " + f.getName());
-                    }
-                }
-            } else {
-                printHelpAndExit(options);
-            }
             if (line.hasOption('t')) {
                 tdbDirectory = line.getOptionValue('t');
                 File d = new File(tdbDirectory);
@@ -69,13 +59,39 @@ public class Xbrl2Rdf {
                 serializeMapping = true;
                 mappingFilename = line.getOptionValue('m');
             }
+            if (line.hasOption('d')) {
+                fileLocations = line.getOptionValues('d');
+                inputStreams = new ArrayList<>();
+                for (String inputfile : fileLocations) {
+                    File f = new File(inputfile);
+                    if (f.isFile() && f.exists()) {
+                        System.out.println("Adding document to mapping discoverer: " + inputfile);
+                        inputStreams.add(new FileInputStream(f));
+                    } // If it is a URL download link for the document from SEC
+                    else if (inputfile.startsWith("http") && inputfile.contains("://")) {
+                        // Download
+                        System.out.println("Adding remote document to mapping discoverer: " + inputfile);
+                        try {
+                            URL url = new URL(inputfile);
+                            InputStream remoteDocumentStream = url.openStream();
+                            inputStreams.add(remoteDocumentStream);
+                        } catch (MalformedURLException ex) {
+                            throw new Exception("The document URL is ill-formed: " + inputfile);
+                        } catch (IOException ex) {
+                            throw new Exception("Error in downloading remote document: " + inputfile);
+                        } 
+                    } else {
+                        throw new Exception("Cannot open XBRL document: " + f.getName());
+                    }
+                }
+            } else {
+                printHelpAndExit(options);
+            }
             setupDocumentBuilder();
             RdfFactory rdfFactory = new RdfFactory(new RunConfig(domain));
             List<Document> documents = new ArrayList<>();
-            for (String inputfileLoc : fileLocations) {
-                File inputfile = new File(inputfileLoc);
-                System.out.println("Adding document to mapping discoverer: " + inputfile.getAbsolutePath());
-                Document dataDocument = createDocument(new FileInputStream(inputfile));
+            for (InputStream inputStream : inputStreams) {
+                Document dataDocument = createDocument(inputStream);
                 documents.add(dataDocument);
             }
             if (serializeMapping) {
