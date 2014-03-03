@@ -54,7 +54,7 @@ public class MappingFactoryTest {
         Mapping mapping = factory.createInstance(docList, "fb-20121231-mapping.xml");
         
         // Verify
-        Entity e = mapping.getEntity("http://corpbase.org/resource/class/us-gaap-NonoperatingIncomeExpense");
+        Entity e = mapping.getEntity("http://fasb.org/us-gaap/2013-01-31/NonoperatingIncomeExpense");
         Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/unit"));
         Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/context"));
         Relation r = e.getRelation("http://corpbase.org/resource/property/context");
@@ -73,7 +73,6 @@ public class MappingFactoryTest {
     }
     
     @Test
-    // Failing, due to xCurator bug
     public void test_mappingFactory_msft() throws SAXException, IOException, 
             ParserConfigurationException, TransformerConfigurationException, XPathExpressionException {
         MappingFactory factory = new MappingFactory(config);
@@ -87,7 +86,7 @@ public class MappingFactoryTest {
         Mapping mapping = factory.createInstance(docList, "msft-20130630-mapping.xml");
         
         // Verify
-        Entity e = mapping.getEntity("http://corpbase.org/resource/class/us-gaap-NonoperatingIncomeExpense");
+        Entity e = mapping.getEntity("http://fasb.org/us-gaap/2013-01-31/NonoperatingIncomeExpense");
         Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/unit"));
         Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/context"));
         Relation r = e.getRelation("http://corpbase.org/resource/property/context");

@@ -9,7 +9,6 @@ import edu.toronto.cs.xcurator.mapping.Entity;
 import edu.toronto.cs.xcurator.mapping.Mapping;
 import edu.toronto.cs.xcurator.mapping.Reference;
 import edu.toronto.cs.xcurator.mapping.Relation;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,17 +27,10 @@ public class XbrlRelationDiscovery implements MappingDiscoveryStep {
     @Override
     public void process(List<DataDocument> dataDocuments, Mapping mapping) {
         /**
-         * Find entities, needs to be improved for multiple document case when
-         * both type names exist.
+         * Find the entities to be linked
          */
-        Entity contextEntity = mapping.getEntity(config.getTypeResourceUriBase()+ "context");
-        if (contextEntity == null) {
-            contextEntity = mapping.getEntity(config.getTypeResourceUriBase() + "xbrli-context");
-        }
-        Entity unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "unit");
-        if (unitEntity == null) {
-            unitEntity = mapping.getEntity(config.getTypeResourceUriBase() + "xbrli-unit");
-        }
+        Entity contextEntity = mapping.getEntity("http://www.xbrl.org/2003/instance/context");
+        Entity unitEntity = mapping.getEntity("http://www.xbrl.org/2003/instance/unit");
         
         /**
          * Converting attributes in XBRL to relations
@@ -51,24 +43,24 @@ public class XbrlRelationDiscovery implements MappingDiscoveryStep {
             while (attrIterator.hasNext()) {
                 Attribute attribute = attrIterator.next();
                 // Linking contextRef with actual context entity
-                if (attribute.getTypeUri().endsWith("contextRef") && 
+                if (attribute.getId().endsWith("contextRef") && 
                         attribute.getPath().equals("@contextRef")) {
                     // Create a relation to the context entity
                     String path = contextEntity.getPath();
                     Relation contextRel = new Relation(config.getPropertyResourceUriBase()+ "context", 
-                            path, contextEntity.getTypeUri());
+                            path, contextEntity.getXmlTypeUri());
                     // Add reference to enable search based on id
                     Reference reference = new Reference("@contextRef", "@id");
                     contextRel.addReference(reference);
                     entity.addRelation(contextRel);
                 }
                 // Linking unitRef with actual unit entity
-                if (attribute.getTypeUri().endsWith("unitRef") && 
+                if (attribute.getId().endsWith("unitRef") && 
                         attribute.getPath().equals("@unitRef")) {
                     // Create a relation to the unit entity
                     String path = unitEntity.getPath();
                     Relation unitRel = new Relation(config.getPropertyResourceUriBase() + "unit", 
-                            path, unitEntity.getTypeUri());
+                            path, unitEntity.getXmlTypeUri());
                     // Add reference to enable search based on id
                     Reference reference = new Reference("@unitRef", "@id");
                     unitRel.addReference(reference);

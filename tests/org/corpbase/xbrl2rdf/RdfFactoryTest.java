@@ -56,7 +56,6 @@ public class RdfFactoryTest {
     }
     
     @Test
-    // Failing, due to xCurator bug
     public void test_rdfcreation_msft() throws SAXException, IOException, ParserConfigurationException {
 
         Document dataDoc = parser.parse(RdfFactoryTest.class.getResourceAsStream(
