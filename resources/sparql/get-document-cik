@@ -1,0 +1,13 @@
+prefix class: <http://corpbase.org/resource/class/>
+prefix property: <http://corpbase.org/resource/property/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+select ?x ?cikvalue
+where {
+?x rdf:type class:xbrl.
+?x property:DocumentType ?doctype.
+?x property:EntityCentralIndexKey ?cik.
+?doctype property:value "10-K".
+?cik property:value ?cikvalue.
+}
+limit 1000
