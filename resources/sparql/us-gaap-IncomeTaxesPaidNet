@@ -1,8 +1,0 @@
-prefix us-gaap: <http://corpbase.org/resource/class/>
-prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-
-select * 
-where {
-?x rdf:type class:IncomeTaxesPaidNet.
-?x ?y ?z.
-} limit 100

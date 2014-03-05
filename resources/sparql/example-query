@@ -1,0 +1,14 @@
+prefix class: <http://corpbase.org/resource/class/>
+prefix property: <http://corpbase.org/resource/property/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+select *
+where {
+?x rdf:type class:UnrecognizedTaxBenefits.
+?x property:context ?context.
+?context property:entity ?entity.
+?entity property:identifier ?id.
+?id property:value ?cik.
+?x ?y ?z.
+}
+limit 1000
