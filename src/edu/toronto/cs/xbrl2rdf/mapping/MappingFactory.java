@@ -106,6 +106,7 @@ public class MappingFactory {
         discoverer.addStep(new BasicEntitiesDiscovery(
                 new XmlParser(),
                 new UriBuilder(config), true));
+        discoverer.addStep(new XbrlEntityFiltering());
         discoverer.addStep(new XbrlRelationDiscovery(config));
 
         return discoverer;
