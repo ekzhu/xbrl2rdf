@@ -54,4 +54,11 @@ public class Xbrl2RdfTest {
         "-t", testTdbDir, "-m", "mapping.xml", "-h", domain};
         Xbrl2Rdf.main(args);
     }
+    
+    @Test
+    public void testMain_aapl_remote() {
+        String[] args = new String[] {"-d", "http://edgar.sec.gov/Archives/edgar/data/320193/000119312513416534/aapl-20130928.xml",
+        "-t", "tdb", "-h", domain};
+        Xbrl2Rdf.main(args);
+    }
 }
