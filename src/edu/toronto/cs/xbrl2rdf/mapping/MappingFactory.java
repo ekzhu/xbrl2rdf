@@ -111,7 +111,7 @@ public class MappingFactory {
                 new RdfUriBuilder(config), new XmlUriBuilder(), true));
         discoverer.addStep(new KeyAttributeDiscovery());
         discoverer.addStep(new HashBasedEntityInterlinking(new RdfUriBuilder(config)));
-        discoverer.addStep(new XbrlEntityFiltering());
+//        discoverer.addStep(new XbrlEntityFiltering());
 
         return discoverer;
 
