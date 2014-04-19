@@ -1,12 +1,12 @@
 package edu.toronto.cs.xbrl2rdf.mapping;
 
-import edu.toronto.cs.xcurator.discoverer.BasicEntitiesDiscovery;
+import edu.toronto.cs.xcurator.discoverer.BasicEntityDiscovery;
 import edu.toronto.cs.xcurator.common.DataDocument;
 import edu.toronto.cs.xcurator.discoverer.MappingDiscoverer;
 import edu.toronto.cs.xcurator.discoverer.SerializeMapping;
 import edu.toronto.cs.xcurator.mapping.Mapping;
 import edu.toronto.cs.xcurator.mapping.XmlBasedMapping;
-import edu.toronto.cs.xcurator.common.UriBuilder;
+import edu.toronto.cs.xcurator.common.RdfUriBuilder;
 import edu.toronto.cs.xcurator.common.XmlDocumentBuilder;
 import edu.toronto.cs.xcurator.common.XmlParser;
 import java.io.FileNotFoundException;
@@ -18,6 +18,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import edu.toronto.cs.xbrl2rdf.config.RunConfig;
+import edu.toronto.cs.xcurator.common.XmlUriBuilder;
+import edu.toronto.cs.xcurator.discoverer.HashBasedEntityInterlinking;
+import edu.toronto.cs.xcurator.discoverer.KeyAttributeDiscovery;
 import org.w3c.dom.Document;
 
 public class MappingFactory {
@@ -88,7 +91,7 @@ public class MappingFactory {
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         discoverer.addStep(new SerializeMapping(new XmlDocumentBuilder(),
                 new FileOutputStream(fileName),
-                transformer));
+                transformer, config));
 
         discoverer.discoverMapping();
         return mapping;
@@ -103,11 +106,12 @@ public class MappingFactory {
             discoverer.addDataDocument(new DataDocument(document, resourceUriPattern));
         }
 
-        discoverer.addStep(new BasicEntitiesDiscovery(
+        discoverer.addStep(new BasicEntityDiscovery(
                 new XmlParser(),
-                new UriBuilder(config), true));
+                new RdfUriBuilder(config), new XmlUriBuilder(), true));
+        discoverer.addStep(new KeyAttributeDiscovery());
+        discoverer.addStep(new HashBasedEntityInterlinking(new RdfUriBuilder(config)));
         discoverer.addStep(new XbrlEntityFiltering());
-        discoverer.addStep(new XbrlRelationDiscovery(config));
 
         return discoverer;
 

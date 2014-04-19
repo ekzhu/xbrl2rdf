@@ -1,13 +1,13 @@
 package edu.toronto.cs.xbrl2rdf.config;
 
-import edu.toronto.cs.xcurator.rdf.RdfConfig;
+import edu.toronto.cs.xcurator.common.RdfUriConfig;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
-public class RunConfig implements RdfConfig {
+public class RunConfig implements RdfUriConfig {
 
     private Configuration config;
 

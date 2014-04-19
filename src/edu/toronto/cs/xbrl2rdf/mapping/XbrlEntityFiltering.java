@@ -47,7 +47,7 @@ public class XbrlEntityFiltering implements MappingDiscoveryStep {
         Iterator<Relation> relIterator = rootEntity.getRelationIterator();
         while (relIterator.hasNext()) {
             Relation relation = relIterator.next();
-            if (typesToRemove.contains(relation.getTargetEntityXmlTypeUri())) {
+            if (typesToRemove.contains(relation.getObjectXmlTypeUri())) {
                 relToRemove.add(relation.getId());
             }
         }
