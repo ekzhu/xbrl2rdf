@@ -34,7 +34,7 @@ public class MappingFactoryTest {
     private String domain = "http://corpbase.org/";
     
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         config = new RunConfig(domain);
         parser = new XmlParser();
         xpath = new XPathFinder();
@@ -51,25 +51,10 @@ public class MappingFactoryTest {
         docList.add(dataDoc);
         
         // Test
-        Mapping mapping = factory.createInstance(docList, "fb-20121231-mapping.xml");
+        Mapping mapping = factory.createInstance(docList, "fb-20131231-mapping.xml");
         
         // Verify
-        Entity e = mapping.getEntity("http://fasb.org/us-gaap/2013-01-31/NonoperatingIncomeExpense");
-        Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/unit"));
-        Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/context"));
-        Relation r = e.getRelation("http://corpbase.org/resource/property/context");
-        
-        NodeList nl = xpath.getNodesByPath(e.getPath(), dataDoc, e.getNamespaceContext());
-        Assert.assertTrue(nl.getLength() > 0);
-        
-        Element element = (Element)nl.item(0);
-        
-        NodeList nl2 = xpath.getNodesByPath(r.getPath(), element, e.getNamespaceContext());
-        Assert.assertTrue(nl2.getLength() > 0);
-        
-        Element contextElement = (Element)nl2.item(0);
-        
-        Assert.assertTrue(contextElement.getLocalName().equals("context"));
+        verify(mapping, dataDoc);
     }
     
     @Test
@@ -86,10 +71,18 @@ public class MappingFactoryTest {
         Mapping mapping = factory.createInstance(docList, "msft-20130630-mapping.xml");
         
         // Verify
+        verify(mapping, dataDoc);
+        
+    }
+    
+    private void verify(Mapping mapping, Document dataDoc) throws XPathExpressionException {
         Entity e = mapping.getEntity("http://fasb.org/us-gaap/2013-01-31/NonoperatingIncomeExpense");
-        Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/unit"));
-        Assert.assertTrue(e.hasRelation("http://corpbase.org/resource/property/context"));
-        Relation r = e.getRelation("http://corpbase.org/resource/property/context");
+        Assert.assertTrue(e.hasRelation("http://fasb.org/us-gaap/2013-01-31/NonoperatingIncomeExpense"+
+                ".http://www.xbrl.org/2003/instance/unit"));
+        String contextRelation = "http://fasb.org/us-gaap/2013-01-31/NonoperatingIncomeExpense"+
+                ".http://www.xbrl.org/2003/instance/context";
+        Assert.assertTrue(e.hasRelation(contextRelation));
+        Relation r = e.getRelation(contextRelation);
         
         NodeList nl = xpath.getNodesByPath(e.getPath(), dataDoc, e.getNamespaceContext());
         Assert.assertTrue(nl.getLength() > 0);

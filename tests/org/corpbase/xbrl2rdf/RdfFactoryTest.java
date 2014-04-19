@@ -39,7 +39,7 @@ public class RdfFactoryTest {
     }
 
     @Test
-    public void test_rdfcreation_fb() throws SAXException, IOException, ParserConfigurationException {
+    public void test_rdfcreation_fb() throws SAXException, IOException, ParserConfigurationException, Exception {
 
         Document dataDoc = parser.parse(RdfFactoryTest.class.getResourceAsStream(
                 "/data/fb-20121231.xml"), -1);
@@ -56,7 +56,7 @@ public class RdfFactoryTest {
     }
     
     @Test
-    public void test_rdfcreation_msft() throws SAXException, IOException, ParserConfigurationException {
+    public void test_rdfcreation_msft() throws SAXException, IOException, ParserConfigurationException, Exception {
 
         Document dataDoc = parser.parse(RdfFactoryTest.class.getResourceAsStream(
                 "/data/msft-20130630.xml"), -1);

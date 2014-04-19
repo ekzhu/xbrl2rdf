@@ -22,32 +22,33 @@ public class RunConfig implements RdfUriConfig {
     String domain;
     String tdbDirectory;
 
-    public RunConfig(String domain) {
-        try {
-            config = new PropertiesConfiguration("setting.properties");
-        } catch (ConfigurationException ex) {
-            Logger.getLogger(RunConfig.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public RunConfig(String domain) throws Exception {
+        
+        config = new PropertiesConfiguration("setting.properties");
+        
         // We have to check if this domain is a valid uri before initializing
         // the config
         this.domain = domain.endsWith("/") ? 
                 domain.substring(0, domain.length()-1) :
                 domain;
         
-        resourceUriBase = this.domain + config.getString("rdf.uribase", "/resource/");
+        resourceUriBase = this.domain + config.getString("rdf.uribase", "/resource");
 
         String typeUriBase = config.getString("rdf.type.uribase",
-                "/resource/class/");
-        typeResourceUriBase = this.domain + (typeUriBase.endsWith("/")
-                ? typeUriBase : typeUriBase + "/");
+                "/resource/class");
+        String propertyUriBase = config.getString("rdf.property.uribase",
+                "/resource/property");
+        
+        if (typeUriBase.endsWith("/") || propertyUriBase.endsWith("/")) {
+            throw new Exception("Do not add \"/\" at the end of URI base.");
+        }
+        
+        typeResourceUriBase = this.domain + typeUriBase;
         
         typeResourcePrefix = config.getString("rdf.type.prefix",
                 "class");
 
-        String propertyUriBase = config.getString("rdf.property.uribase",
-                "/resource/property/");
-        propertyResourceUriBase = this.domain + (propertyUriBase.endsWith("/")
-                ? propertyUriBase : propertyUriBase + "/");
+        propertyResourceUriBase = this.domain + propertyUriBase;
         
         propertyResourcePrefix = config.getString("rdf.property.prefix",
                 "property");
