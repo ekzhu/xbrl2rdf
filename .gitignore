@@ -5,6 +5,7 @@ nbbuild.xml
 nbdist
 build
 lib
+dist
 
 # Package Files #
 *.jar
