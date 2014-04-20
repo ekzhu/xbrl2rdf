@@ -15,7 +15,7 @@ Building this tool requires [Ant](http://ant.apache.org). Run `ant -version` to 
 
 ##Quick start
 
-Following the instructions for building. Once done, in the directory of `xbrl2rdf.jar`, run the following commands
+Follow the instructions for building. Once done, in the directory of `xbrl2rdf.jar`, run the following commands
 
 	mkdir tdb
 	java -jar xbrl2rdf.jar -d http://www.sec.gov/Archives/edgar/data/1326801/000132680114000007/fb-20131231.xml -h http://corpbase.org -m fb-20131231-mapping.xml -t tdb
