@@ -62,4 +62,4 @@ You can use the following SPARQL query to get the net income information in the 
 	}
 	order by ?name
 
-[Apache Jena] provides many other tools and libraries to work with RDF data, vist their website for more information.
+[Apache Jena](http://jena.apache.org) provides many other tools and libraries to work with RDF data, vist their website for more information.
