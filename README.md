@@ -22,6 +22,8 @@ Follow the instructions for building. Once done, in the directory of `xbrl2rdf.j
 
 This will download Facebook Inc.'s 2013 annual filing, and convert the document into RDF data. The RDF data is stored in a [TDB](http://jena.apache.org/documentation/tdb/), which is in the `tdb` directory. The entities and relations in the data are serialized into the mapping file `fb-20131231-mapping.xml`.
 
+Local XBRL documents can also be used, just use local file path for `-d` argument.
+
 ##Serve data over HTTP
 
 [Fuseki](http://jena.apache.org/documentation/serving_data) can be used for serving the RDF data over HTTP through [SPARQL](http://www.w3.org/TR/sparql11-query/) endpoint. It also provides a nice web interface for running SPARQL queries.
