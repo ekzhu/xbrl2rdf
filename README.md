@@ -32,7 +32,13 @@ For quick start, [download](http://jena.apache.org/download) Fuseki, then run th
 
 	bash fuseki-server --loc /path/to/tdb/directory /corpbase
 
-The web query interface can now be accessed at http://localhost:3030/sparql.tpl. You can use the following SPARQL query to get the net income information in the filings.
+The web query interface can now be accessed at `http://localhost:3030/sparql.tpl`. 
+
+##Query the data
+
+The data can be queried directly through the SPARQL endpoint served by Fuseki server, either using [ARQ](http://jena.apache.org/documentation/query/) or the web query interface provided by Fuseki server.
+
+You can use the following SPARQL query to get the net income information in the filings.
 
 	prefix class: <http://corpbase.org/resource/class/>
 	prefix property: <http://corpbase.org/resource/property/>
@@ -55,3 +61,5 @@ The web query interface can now be accessed at http://localhost:3030/sparql.tpl.
 	?period property:endDate ?end.
 	}
 	order by ?name
+
+[Apache Jena] provides many other tools and libraries to work with RDF data, vist their website for more information.
