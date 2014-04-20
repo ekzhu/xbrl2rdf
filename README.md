@@ -13,7 +13,7 @@ Building this tool requires [Ant](http://ant.apache.org). Run `ant -version` to 
 4. Run `ant clean dist` to build afresh.
 5. The runnable JAR file `xbrl2rdf.jar` is in `dist` directory
 
-###Quick start
+##Quick start
 
 Following the instructions for building. Once done, in the directory of `xbrl2rdf.jar`, run the following commands
 
@@ -22,7 +22,7 @@ Following the instructions for building. Once done, in the directory of `xbrl2rd
 
 This will download Facebook Inc.'s 2013 annual filing, and convert the document into RDF data. The RDF data is stored in a [TDB](http://jena.apache.org/documentation/tdb/), which is in the `tdb` directory. The entities and relations in the data are serialized into the mapping file `fb-20131231-mapping.xml`.
 
-###Serve data over HTTP
+##Serve data over HTTP
 
 [Fuseki](http://jena.apache.org/documentation/serving_data) can be used for serving the RDF data over HTTP through [SPARQL](http://www.w3.org/TR/sparql11-query/) endpoint. It also provides a nice web interface for running SPARQL queries.
 
