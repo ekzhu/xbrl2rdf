@@ -3,7 +3,7 @@ xbrl2rdf
 
 This is a command line tool for converting XBRL documents to Resource Description Framework (RDF) format. It uses [xCurator](https://github.com/ekzhu/xcurator). It can be used together with [secxbrl](https://github.com/ekzhu/secxbrl), which downloads XBRL documents from SEC.
 
-##Build:
+##Build
 
 Building this tool requires [Ant](http://ant.apache.org). Run `ant -version` to see if it is installed.
 
