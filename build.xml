@@ -64,21 +64,12 @@
 
   <target name="dist" depends="compile" description="generate the distribution" >
     <mkdir dir="${dist.dir}"/>
-    <mkdir dir="${build.dir}/lib"/>
-    <copy todir="${build.dir}/lib" flatten="true">
-      <path refid="lib.path" />
-    </copy>
-
-    <manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
-        <classpath refid="lib.path"/>
-    </manifestclasspath>
-
     <!-- Create the JAR file -->
     <jar destfile="${jar.file}" basedir="${build.dir}">
         <manifest>
             <attribute name="Main-Class" value="${main-class}"/>
-            <attribute name="Class-Path" value="${manifest.classpath}"/>
         </manifest>
+        <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
     </jar>
     <!-- Copy the property file -->
     <copy file="setting.properties" tofile="${dist.dir}/setting.properties"/>
