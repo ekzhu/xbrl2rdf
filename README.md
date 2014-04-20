@@ -20,7 +20,7 @@ Follow the instructions for building. Once done, in the directory of `xbrl2rdf.j
 	mkdir tdb
 	java -jar xbrl2rdf.jar -d http://www.sec.gov/Archives/edgar/data/1326801/000132680114000007/fb-20131231.xml -h http://corpbase.org -m fb-20131231-mapping.xml -t tdb
 
-This will download Facebook Inc.'s 2013 annual filing, and convert the document into RDF data. The RDF data is stored in a [TDB](http://jena.apache.org/documentation/tdb/), which is in the `tdb` directory. The entities and relations in the data are serialized into the mapping file `fb-20131231-mapping.xml`.
+This will download Facebook Inc.'s 2013 annual filing, and convert the document into RDF data. The RDF data is stored in a [TDB](http://jena.apache.org/documentation/tdb/), which is in the `tdb` directory. The entities and relations in the data are serialized into the mapping file `fb-20131231-mapping.xml`. The domain name of the RDF data is set to `http://corpbase.org`.
 
 Local XBRL documents can also be used, just use local file path for `-d` argument.
 
@@ -32,4 +32,26 @@ For quick start, [download](http://jena.apache.org/download) Fuseki, then run th
 
 	bash fuseki-server --loc /path/to/tdb/directory /corpbase
 
-The web interface can now be accessed at http://localhost:3030
+The web query interface can now be accessed at http://localhost:3030/sparql.tpl. You can use the following SPARQL query to get the net income information in the filings.
+
+	prefix class: <http://corpbase.org/resource/class/>
+	prefix property: <http://corpbase.org/resource/property/>
+	prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+	select distinct ?name ?netincome ?start ?end
+	where
+	{
+	?a rdf:type class:xbrl.
+	?a property:EntityRegistrantName ?n.
+	?n property:value ?name.
+	?a property:NetIncomeLoss ?z.
+	?z property:value ?netincome.
+	?z property:context ?context.
+	?context property:entity ?contextentity.
+	filter not exists {?contextentity property:segment ?x}.
+	?context property:period ?period.
+	?period property:startDate ?start.
+	?period property:endDate ?end.
+	}
+	order by ?name
