@@ -1,7 +1,7 @@
 xbrl2rdf
 ========
 
-This is a command line application that can transform XBRL documents to linked data. It follows the [xCurator](https://github.com/ekzhu/xcurator) framework for XML schema extraction and RDF generation, with specialized schema discoverer for XBRL.
+This is a command line application for converting XBRL documents to Resource Description Framework (RDF) format. It uses [xCurator](https://github.com/ekzhu/xcurator). It can be used together with [secxbrl](https://github.com/ekzhu/secxbrl), which downloads XBRL documents from SEC.
 
 ##To build (need Ant):
 
