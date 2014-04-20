@@ -1,12 +1,14 @@
 <ivy-module version="2.0">
-  <info organisation="edu.toronto.cs" module="xml2rdf" />
+  <info organisation="edu.toronto.cs" module="xbrl2rdf" />
   <dependencies>
     <dependency org="org.apache.jena" name="jena-core" rev="2.11.1"/>
     <dependency org="org.apache.jena" name="jena-arq" rev="2.11.1"/>
     <dependency org="org.apache.jena" name="jena-iri" rev="1.0.1"/>
     <dependency org="org.apache.jena" name="jena-sdb" rev="1.4.1"/>
     <dependency org="org.apache.jena" name="jena-tdb" rev="1.0.1"/>
-    <dependency org="log4j" name="log4j" rev="1.2.16"/>
+    <dependency org="log4j" name="log4j" rev="1.2.16" >
+      <artifact name="log4j" type="jar" />
+    </dependency>
     <dependency org="commons-configuration" name="commons-configuration" rev="1.10"/>
     <dependency org="commons-cli" name="commons-cli" rev="1.2"/>
   </dependencies>
