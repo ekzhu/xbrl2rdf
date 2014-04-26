@@ -32,7 +32,7 @@ For quick start, [download](http://jena.apache.org/download) Fuseki, then run th
 
 	bash fuseki-server --loc /path/to/tdb/directory /corpbase
 
-The web query interface can now be accessed at `http://localhost:3030/sparql.tpl`. 
+The web query interface can now be accessed at `http://localhost:3030/control-panel.tpl`, select `/corpbase` dataset.
 
 ##Query the data
 
