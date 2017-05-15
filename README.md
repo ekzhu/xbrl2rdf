@@ -18,7 +18,7 @@ Building this tool requires [Ant](http://ant.apache.org). Run `ant -version` to 
 Follow the instructions for building. Once done, in the directory of `xbrl2rdf.jar`, run the following commands
 
 	mkdir tdb
-	java -jar xbrl2rdf.jar -d http://www.sec.gov/Archives/edgar/data/1326801/000132680114000007/fb-20131231.xml -h http://corpbase.org -m fb-20131231-mapping.xml -t tdb
+	java -jar xbrl2rdf.jar -d https://www.sec.gov/Archives/edgar/data/1326801/000132680114000007/fb-20131231.xml -h http://corpbase.org -m fb-20131231-mapping.xml -t tdb
 
 This will download Facebook Inc.'s 2013 annual filing, and convert the document into RDF data. The RDF data is stored in a [TDB](http://jena.apache.org/documentation/tdb/), which is in the `tdb` directory. The entities and relations in the data are serialized into the mapping file `fb-20131231-mapping.xml`. The domain name of the RDF data is set to `http://corpbase.org`.
 
